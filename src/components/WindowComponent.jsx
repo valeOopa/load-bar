@@ -1,13 +1,17 @@
 import PropTypes from 'prop-types';
 
-export function WindowComponent({ setStatus, number, setNumber }) {
+export function WindowComponent({ setStatus, number, setNumber,setError }) {
   
 
   const changeNumber = e => {
     setNumber(e.target.value);
   };
 
-  const checkNumber = () => setStatus(true);
+  const checkNumber = () => {
+    setStatus(true);
+    const numberPattern = /^\d+.*[a-zA-Z].*$/;
+    if(isNaN(parseFloat(number)) || numberPattern.test(number)) setError(true);
+  };
   
   return (
     <div id="app__window">
@@ -21,5 +25,6 @@ export function WindowComponent({ setStatus, number, setNumber }) {
 WindowComponent.propTypes = {
   setStatus: PropTypes.func.isRequired,
   number: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
-  setNumber: PropTypes.func.isRequired
+  setNumber: PropTypes.func.isRequired,
+  setError: PropTypes.func.isRequired
 };
